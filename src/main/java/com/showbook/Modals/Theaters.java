@@ -14,15 +14,22 @@ public class Theaters {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	@Column(nullable = false)
 	private String theater_name;
+	
+	@Column(nullable = false)
+	private String email;
+	
+	@Column(nullable = false)
+	private String password;
 
 	@Column(nullable = false)
 	private String location;
 
 	@Column(nullable = false)
 	private String total_screens;
-
+	
 	@Column(nullable = false)
 	private String contact;
 
@@ -34,25 +41,21 @@ public class Theaters {
 
 	public Theaters() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Theaters(long id, String theater_name, String location, String total_screens, String contact,
-			LocalDateTime created_at, LocalDateTime updated_at) {
+	public Theaters(long id, String theater_name, String email, String password, String location, String total_screens,
+			String contact, LocalDateTime created_at, LocalDateTime updated_at) {
 		super();
 		this.id = id;
 		this.theater_name = theater_name;
+		this.email = email;
+		this.password = password;
 		this.location = location;
 		this.total_screens = total_screens;
 		this.contact = contact;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
-
-//	   @JsonCreator
-//	    public Theaters(@JsonProperty("id") Long id) {
-//	        this.id = id;
-//	    }
 
 	public long getId() {
 		return id;
@@ -68,6 +71,22 @@ public class Theaters {
 
 	public void setTheater_name(String theater_name) {
 		this.theater_name = theater_name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getLocation() {
@@ -109,4 +128,9 @@ public class Theaters {
 	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
+
+//	   @JsonCreator
+//	    public Theaters(@JsonProperty("id") Long id) {
+//	        this.id = id;
+//	    }
 }

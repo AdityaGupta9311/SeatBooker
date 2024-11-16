@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.showbook.Exception.InvalidLoginException;
 import com.showbook.Exception.TheaterNotFoundException;
 import com.showbook.Modals.Theaters;
 import com.showbook.Repository.TheatersRepository;
@@ -19,8 +20,17 @@ public class TheatersService {
 	public Theaters addTheater(Theaters theaters) {
 		theaters.setCreated_at(LocalDateTime.now());
 		theaters.setUpdated_at(LocalDateTime.now());
-
 		return theatersRepository.save(theaters);
+	}
+	
+	public Theaters loginTheater(String email, String password) {
+
+		Theaters theaters = theatersRepository.findByEmail(email);
+		if (theaters != null && theaters.getPassword().equals(password)) {
+			return theaters;
+		} else {
+			throw new InvalidLoginException("Invalid Email Or Password");
+		}
 	}
 
 	public Theaters getTheaterById(Long theaderId) throws TheaterNotFoundException {

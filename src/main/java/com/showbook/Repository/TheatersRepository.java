@@ -11,4 +11,6 @@ import com.showbook.Modals.Theaters;
 public interface TheatersRepository extends JpaRepository<Theaters, Long> {
 
 	public Optional<Theaters> getTheaterById(long theaterId);
+
+	public Theaters findByEmail(String email);
 }

@@ -3,6 +3,7 @@ package com.showbook.Service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.showbook.Exception.InvalidLoginException;
@@ -14,6 +15,9 @@ import com.showbook.Repository.UsersRepository;
 public class UserService {
 
 	@Autowired
+    PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	UsersRepository usersRepository;
 
 	public Users registerUsers(Users users) {
@@ -22,7 +26,7 @@ public class UserService {
 		newUser.setId(users.getId());
 		newUser.setName(users.getName());
 		newUser.setEmail(users.getEmail());
-		newUser.setPassword(users.getPassword());
+		newUser.setPassword(passwordEncoder.encode(users.getPassword()));
 
 		return usersRepository.save(newUser);
 	}
@@ -30,7 +34,7 @@ public class UserService {
 	public Users loginUsers(String email, String password) {
 
 		Users users = usersRepository.findByEmail(email);
-		if (users != null && users.getPassword().equals(password)) {
+		if (users != null && passwordEncoder.matches(password, users.getPassword())) {
 			return users;
 		} else {
 			throw new InvalidLoginException("Invalid Email Or Password");

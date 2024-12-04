@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.showbook.Exception.InvalidLoginException;
@@ -15,18 +16,23 @@ import com.showbook.Repository.TheatersRepository;
 public class TheatersService {
 
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	TheatersRepository theatersRepository;
 
 	public Theaters addTheater(Theaters theaters) {
+	
 		theaters.setCreated_at(LocalDateTime.now());
 		theaters.setUpdated_at(LocalDateTime.now());
+		theaters.setPassword(passwordEncoder.encode(theaters.getPassword()));
 		return theatersRepository.save(theaters);
 	}
 	
 	public Theaters loginTheater(String email, String password) {
 
 		Theaters theaters = theatersRepository.findByEmail(email);
-		if (theaters != null && theaters.getPassword().equals(password)) {
+		if (theaters != null && passwordEncoder.matches(password, theaters.getPassword())) {
 			return theaters;
 		} else {
 			throw new InvalidLoginException("Invalid Email Or Password");

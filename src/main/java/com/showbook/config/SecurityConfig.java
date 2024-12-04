@@ -28,8 +28,8 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth 
-					.requestMatchers("/login","/user/**","/register").permitAll()
-					.anyRequest().authenticated())
+					.requestMatchers("/login","/register").authenticated()
+					.anyRequest().permitAll())
 			.httpBasic(Customizer.withDefaults())
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();

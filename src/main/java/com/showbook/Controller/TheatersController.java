@@ -29,6 +29,10 @@ public class TheatersController {
 
 	@PostMapping("/theater")
 	public ResponseEntity<String> addTheater(@RequestBody Theaters theaters) {
+		Theaters isExisTheater = theatersRepository.findByLocation(theaters.getLocation());
+		if(isExisTheater != null) {
+			return new ResponseEntity<String>("On This Location Theather Already Exist",HttpStatus.CONFLICT);
+		}
 		theatersService.addTheater(theaters);
 		return new ResponseEntity<>("Theater is Succesfully Added ", HttpStatus.CREATED);
 	}

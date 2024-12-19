@@ -1,6 +1,8 @@
 package com.showbook.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.showbook.Modals.Users;
 import com.showbook.Repository.UsersRepository;
 import com.showbook.Service.UserService;
+import com.showbook.config.JwtUtils;
 import com.showbook.request.LoginRequest;
 
 @RestController
@@ -28,34 +31,6 @@ public class UserController {
 	@Autowired
 	UsersRepository usersRepository;
 
-	@GetMapping("/home")
-	public String home() {
-		return "home";
-	}
-
-	@PostMapping("/register")
-	public ResponseEntity<String> createUser(@RequestBody Users users) {
-
-		Users isExistUser = usersRepository.findByEmail(users.getEmail());
-		if (isExistUser != null) {
-			return new ResponseEntity<>("This Email is already exist", HttpStatus.CONFLICT);
-		}
-		userService.registerUsers(users);
-		return new ResponseEntity<>("User Successfully Added", HttpStatus.CREATED);
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-
-//		try {
-		Users users = userService.loginUsers(loginRequest.getEmail(), loginRequest.getPassword());
-		return ResponseEntity.ok(users);
-//		} catch (InvalidLoginException e) {
-//			return new ResponseEntity<>("Invalid Email Or Password",HttpStatus.UNAUTHORIZED);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>("An error occurred", HttpStatus.UNAUTHORIZED);
-//		}
-	}
 
 	@GetMapping("/users")
 	public ResponseEntity<List<Users>> getAllUsers() {

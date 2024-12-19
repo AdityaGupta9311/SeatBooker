@@ -23,18 +23,20 @@ public class SecurityConfig {
 
 	@Autowired
 	CustomUserDetailService customUserDetailService;
-	
+
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(auth -> auth 
-//					.requestMatchers("/login","/register").authenticated()
-					.anyRequest().permitAll())
-			.httpBasic(Customizer.withDefaults())
-			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+				.authorizeHttpRequests(auth -> auth
+//						.requestMatchers("/loginuser").permitAll()
+						.requestMatchers("/user/**").hasAuthority("ROLE_USER")
+						.requestMatchers("/theate/**").hasAuthority("ROLE_THEATER")
+						.anyRequest().permitAll())
+				.httpBasic(Customizer.withDefaults())
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -46,8 +48,8 @@ public class SecurityConfig {
 		provider.setUserDetailsService(customUserDetailService);
 		provider.setPasswordEncoder(passwordEncoder());
 		return provider;
-	} 
-	
+	}
+
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {

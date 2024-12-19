@@ -27,28 +27,7 @@ public class TheatersController {
 	@Autowired
 	TheatersRepository theatersRepository;
 
-	@PostMapping("/theater")
-	public ResponseEntity<String> addTheater(@RequestBody Theaters theaters) {
-		Theaters isExisTheater = theatersRepository.findByLocation(theaters.getLocation());
-		if(isExisTheater != null) {
-			return new ResponseEntity<String>("On This Location Theather Already Exist",HttpStatus.CONFLICT);
-		}
-		theatersService.addTheater(theaters);
-		return new ResponseEntity<>("Theater is Succesfully Added ", HttpStatus.CREATED);
-	}
-	
-	@PostMapping("/logintheater")
-	public ResponseEntity<?> loginTheater(@RequestBody Theaters theaters) {
 
-//		try {
-		Theaters t1 = theatersService.loginTheater(theaters.getEmail(), theaters.getPassword());
-		return ResponseEntity.ok(t1);
-//		} catch (InvalidLoginException e) {
-//			return new ResponseEntity<>("Invalid Email Or Password",HttpStatus.UNAUTHORIZED);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>("An error occurred", HttpStatus.UNAUTHORIZED);
-//		}
-	}
 
 	@GetMapping("/getalltheaters")
 	public ResponseEntity<List<Theaters>> getAllTheaters() {

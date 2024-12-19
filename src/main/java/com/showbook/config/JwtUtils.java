@@ -1,11 +1,14 @@
 package com.showbook.config;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.showbook.request.LoginRequest;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,13 +19,14 @@ public class JwtUtils {
 
 	private static SecretKey key = Keys.hmacShaKeyFor(JwtContsant.SECRET_KEY.getBytes());
 
-	public static String generateToken(Authentication auth) {
+	public static String generateToken(Map<String, Object> claims, LoginRequest loginRequest) {
 
 		String jwt = Jwts.builder()
-				.issuer(auth.getName())
-				.issuedAt(new Date())
-				.expiration(new Date(new Date().getTime() + 86400000))
-				.claim("email", auth.getName()).signWith(key)
+				.setClaims(claims)
+//				.setSubject(loginRequest)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(new Date().getTime() + 86400000))
+				.signWith(key)
 				.compact();
 
 		return jwt;

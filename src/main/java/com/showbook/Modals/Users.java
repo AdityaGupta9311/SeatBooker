@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Users {
@@ -21,16 +19,14 @@ public class Users {
 	@Column(nullable = false)
 	private String password;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+	private String role = "ROLE_USER";
 
 	public Users() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Users(long id, String name, String email, String password, Role role) {
+	public Users(long id, String name, String email, String password, String role) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -71,11 +67,11 @@ public class Users {
 		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

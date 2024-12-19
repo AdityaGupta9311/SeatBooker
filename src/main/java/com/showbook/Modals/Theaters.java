@@ -14,13 +14,13 @@ public class Theaters {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	@Column(nullable = false)
 	private String theater_name;
-	
+
 	@Column(nullable = false)
 	private String email;
-	
+
 	@Column(nullable = false)
 	private String password;
 
@@ -29,7 +29,7 @@ public class Theaters {
 
 	@Column(nullable = false)
 	private String total_screens;
-	
+
 	@Column(nullable = false)
 	private String contact;
 
@@ -39,12 +39,14 @@ public class Theaters {
 	@Column(nullable = false)
 	private LocalDateTime updated_at;
 
+	private String role = "ROLE_THEATER";
+
 	public Theaters() {
 		super();
 	}
 
 	public Theaters(long id, String theater_name, String email, String password, String location, String total_screens,
-			String contact, LocalDateTime created_at, LocalDateTime updated_at) {
+			String contact, LocalDateTime created_at, LocalDateTime updated_at, String role) {
 		super();
 		this.id = id;
 		this.theater_name = theater_name;
@@ -55,6 +57,7 @@ public class Theaters {
 		this.contact = contact;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
+		this.role = role;
 	}
 
 	public long getId() {
@@ -127,6 +130,14 @@ public class Theaters {
 
 	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 //	   @JsonCreator

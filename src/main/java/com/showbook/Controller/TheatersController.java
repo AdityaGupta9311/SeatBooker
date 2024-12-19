@@ -28,14 +28,13 @@ public class TheatersController {
 	TheatersRepository theatersRepository;
 
 
-
-	@GetMapping("/getalltheaters")
+	@GetMapping("/theater/getalltheaters")
 	public ResponseEntity<List<Theaters>> getAllTheaters() {
 		List<Theaters> t1 = theatersRepository.findAll();
 		return new ResponseEntity<>(t1, HttpStatus.OK);
 	}
 
-	@GetMapping("/getheaterById/{theaterId}")
+	@GetMapping("/theater/getheaterById/{theaterId}")
 	public ResponseEntity<Theaters> geTheaterById(@PathVariable Long theaterId) {
 		Theaters t1 = theatersService.getTheaterById(theaterId);
 		return new ResponseEntity<Theaters>(t1, HttpStatus.OK);

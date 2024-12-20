@@ -19,7 +19,7 @@ public class Users {
 	@Column(nullable = false)
 	private String password;
 
-	private String role = "ROLE_USER";
+	private String role;
 
 	public Users() {
 		super();

@@ -27,15 +27,15 @@ public class UserController {
 	UsersRepository usersRepository;
 
 
-	@GetMapping("/user/users")
-	@Secured("ROLE_USER")
+	@GetMapping("/admin/user/users")
+	@Secured("ROLE_ADMIN")
 	public ResponseEntity<List<Users>> getAllUsers() {
 		List<Users> users = usersRepository.findAll();
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
 	@GetMapping("/user/{userId}")
-	@Secured("ROLE_USER")
+	@Secured("ROLE_ADMIN")
 	public ResponseEntity<Users> getUserById(@PathVariable("userId") long id) {
 		Users users = userService.getUserById(id);
 		return new ResponseEntity<>(users, HttpStatus.OK);

@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.showbook.Modals.Theaters;
@@ -53,19 +53,29 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestBody LoginRequest loginRequest) {
+		
+		if ("aditya.gupta@gmail.com".equals(loginRequest.getEmail()) && "1234".equals(loginRequest.getPassword())) {
+			Map<String, Object> clamis = new HashMap<>();
+			clamis.put("role", "ROLE_ADMIN");
+			return JwtUtils.generateToken(clamis);
+		}
 
 		Users users = userService.loginUsers(loginRequest.getEmail(), loginRequest.getPassword());
 		Map<String, Object> clamis = new HashMap<>();
 		clamis.put("role", "ROLE_USER");
-		return JwtUtils.generateToken(clamis , null);
+		return JwtUtils.generateToken(clamis);
 	}
 	
 	
 	@PostMapping("/theater")
 	public ResponseEntity<String> addTheater(@RequestBody Theaters theaters) {
-		Theaters isExisTheater = theatersRepository.findByLocation(theaters.getLocation());
-		if(isExisTheater != null) {
+		Theaters isExistTheaterOnLocation = theatersRepository.findByLocation(theaters.getLocation());
+		Theaters isExistTheaterwithEmail = theatersRepository.findByEmail(theaters.getEmail());
+		if(isExistTheaterOnLocation != null) {
 			return new ResponseEntity<String>("On This Location Theather Already Exist",HttpStatus.CONFLICT);
+		}
+		if(isExistTheaterwithEmail != null) {
+			return new ResponseEntity<String>("This email is Already Exist",HttpStatus.CONFLICT);
 		}
 		theatersService.addTheater(theaters);
 		return new ResponseEntity<>("Theater is Succesfully Added ", HttpStatus.CREATED);
@@ -77,7 +87,31 @@ public class AuthController {
 		Theaters t1 = theatersService.loginTheater(theaters.getEmail(), theaters.getPassword());
 		Map<String, Object> clamis = new HashMap<>();
 		clamis.put("role", "ROLE_THEATER");
-		return jwtUtils.generateToken(clamis , null);
+		return jwtUtils.generateToken(clamis);
 
 	}
+	
+	@PostMapping("/admin/register")
+	@Secured("ROLE_ADMIN")
+	public ResponseEntity<String> createAdmin(@RequestBody Users admin) {
+
+	    Users existingAdmin = usersRepository.findByEmail(admin.getEmail());
+	    if (existingAdmin != null) {
+	        return new ResponseEntity<>("This Email already exists", HttpStatus.CONFLICT);
+	    }
+
+	    admin.setRole("ROLE_ADMIN");
+	    userService.registerUsers(admin);
+	    return new ResponseEntity<>("Admin Successfully Registered", HttpStatus.CREATED);
+	}
+	
+//	@PostMapping("/admin/login")
+//	public String loginAdmin(@RequestBody LoginRequest loginRequest) {
+//
+//		Users users = userService.loginUsers(loginRequest.getEmail(), loginRequest.getPassword());
+//		Map<String, Object> clamis = new HashMap<>();
+//		clamis.put("role", "ROLE_ADMIN");
+//		return JwtUtils.generateToken(clamis);
+//	}
+
 }

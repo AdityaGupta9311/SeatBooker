@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.showbook.request.LoginRequest;
@@ -19,13 +18,13 @@ public class JwtUtils {
 
 	private static SecretKey key = Keys.hmacShaKeyFor(JwtContsant.SECRET_KEY.getBytes());
 
-	public static String generateToken(Map<String, Object> claims, LoginRequest loginRequest) {
+	public static String generateToken(Map<String, Object> claims) {
 
 		String jwt = Jwts.builder()
 				.setClaims(claims)
-//				.setSubject(loginRequest)
+				.subject("Unkonwn")
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime() + 86400000))
+				.expiration(new Date(new Date().getTime() + 86400000))
 				.signWith(key)
 				.compact();
 
@@ -40,17 +39,17 @@ public class JwtUtils {
 			return false;
 		}
 	}
-	
+
 	public Claims extractAllClaims(String token) {
-		return Jwts.parser().setSigningKey(key).build().parseClaimsJwt(token).getBody();
+		return Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody();
 	}
-	
+
 	public String extractUsername(String token) {
 		return extractAllClaims(token).getSubject();
 	}
-	
+
 	public String extractRole(String token) {
 		return (String) extractAllClaims(token).get("role");
 	}
-	
+
 }

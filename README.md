@@ -10,19 +10,18 @@ SpotMyShow is a Spring Boot-powered ticket booking API that allows users to brow
 🔑 Secure Authentication – JWT-based login system.<br>
 
 <h3>🎭 Theater Management</h3>
-🏛️ Separate Theater Login – Each theater manages its own movies and shows.
-🎥 Add/Edit Shows & Movies – Manage available screenings.
-📊 Track Bookings – View customer reservations.
+🏛️ Separate Theater Login – Each theater manages its own movies and shows.<br>
+🎥 Add/Edit Shows & Movies – Manage available screenings.<br>
+📊 Track Bookings – View customer reservations.<br>
 
 <h3>🔐 Security</h3>
-✅ JWT-based Authentication – Secure access with JSON Web Tokens.
-⚡ Spring Security Integration – Protects APIs and ensures role-based access.
+✅ JWT-based Authentication – Secure access with JSON Web Tokens.<br>
+⚡ Spring Security Integration – Protects APIs and ensures role-based access.<br>
 
 <h3>🛠️ Tech Stack</h3>
-Backend: Spring Boot, Spring JPA, Hibernate, Spring Security, JWT
-Database: MySQL
+Backend: Spring Boot, Spring JPA, Hibernate, Spring Security, JWT<br>
+Database: MySQL<br>
 
 <h3>📌 Future Enhancements</h3>
-🏢 Admin Panel as a Microservice
-📱 Frontend Development (React)
-🎯 Payment Integratio
+🏢 Admin Panel as a Microservice<br>
+📱 Frontend Development (React)<br>

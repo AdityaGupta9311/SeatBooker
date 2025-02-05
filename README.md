@@ -1,4 +1,4 @@
-🎟️ SpotMyShow – Movie & Show Ticket Booking API
+<h1>🎟️ SpotMyShow – Movie & Show Ticket Booking API </h1>
 SpotMyShow is a Spring Boot-powered ticket booking API that allows users to browse, book, and manage movie and show tickets. The system supports multi-theater management, secure authentication, and seamless booking operations.
 
 🚀 Features
